@@ -26,6 +26,6 @@
 
 ## Демо вебсайта
 
-![Image alt](https://github.com/siega52/cars-app/raw/main/src/img/001.jpg)
-![Image alt](https://github.com/siega52/cars-app/raw/main/src/img/002.jpg)
-![Image alt](https://github.com/siega52/cars-app/raw/main/src/img/003.jpg)
+![Image alt](https://github.com/siega52/cars-app/raw/main/src/img/011.png)
+![Image alt](https://github.com/siega52/cars-app/raw/main/src/img/002.png)
+![Image alt](https://github.com/siega52/cars-app/raw/main/src/img/003.png)
