@@ -1,92 +1,367 @@
-/* src/components/CarForm/CarForm.css */
 .car-form {
-  background: #ffffff;
-  border-radius: 8px;
-  padding: 24px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(135deg, #1e1e2f 0%, #2a2a40 100%);
+  border-radius: 20px;
+  padding: 30px;
+  max-width: 600px;
+  margin: 20px auto;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  animation: slideIn 0.5s ease-out;
+  position: relative;
+  overflow: hidden;
+}
+
+.car-form::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+  animation: rotate 20s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .car-form__header {
-  margin-bottom: 24px;
+  margin-bottom: 30px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 15px;
+  position: relative;
+}
+
+.car-form__header::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 50px;
+  height: 2px;
+  background: linear-gradient(90deg, #ff6b6b, #4ecdc4);
+  animation: widthExpand 0.8s ease-out forwards;
+}
+
+@keyframes widthExpand {
+  from {
+    width: 0;
+  }
+  to {
+    width: 50px;
+  }
 }
 
 .car-form__title {
-  font-size: 24px;
-  font-weight: 600;
-  color: #333;
+  color: #fff;
+  font-size: 1.8rem;
   margin: 0;
+  text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  letter-spacing: 1px;
+  animation: fadeInDown 0.6s ease-out;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .car-form__fields {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 16px;
-  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .car-form__field {
   display: flex;
   flex-direction: column;
+  gap: 8px;
+  animation: slideInRight 0.6s ease-out;
+  animation-fill-mode: both;
+}
+
+.car-form__field:nth-child(1) { animation-delay: 0.1s; }
+.car-form__field:nth-child(2) { animation-delay: 0.2s; }
+.car-form__field:nth-child(3) { animation-delay: 0.3s; }
+.car-form__field:nth-child(4) { animation-delay: 0.4s; }
+.car-form__field:nth-child(5) { animation-delay: 0.5s; }
+.car-form__field:nth-child(6) { animation-delay: 0.6s; }
+.car-form__field:nth-child(7) { animation-delay: 0.7s; }
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 .car-form__label {
-  font-size: 14px;
+  color: #ddd;
+  font-size: 0.95rem;
   font-weight: 500;
-  color: #555;
-  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+  transition: color 0.3s ease;
+}
+
+.car-form__field:hover .car-form__label {
+  color: #4ecdc4;
 }
 
 .car-form__input {
-  padding: 10px 12px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 14px;
-  transition: border-color 0.2s;
+  padding: 12px 15px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid transparent;
+  border-radius: 12px;
+  color: #fff;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+}
+
+.car-form__input:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(78, 205, 196, 0.5);
 }
 
 .car-form__input:focus {
   outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+  background: rgba(255, 255, 255, 0.2);
+  border-color: #4ecdc4;
+  box-shadow: 0 0 15px rgba(78, 205, 196, 0.3);
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(78, 205, 196, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(78, 205, 196, 0.5);
+  }
 }
 
 .car-form__input--color {
-  padding: 4px;
-  height: 40px;
+  height: 50px;
+  padding: 5px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.car-form__input--color:hover {
+  transform: scale(1.05);
 }
 
 .car-form__footer {
   display: flex;
-  gap: 12px;
+  gap: 15px;
+  margin-top: 30px;
   justify-content: flex-end;
-  border-top: 1px solid #eee;
-  padding-top: 20px;
+  animation: fadeInUp 0.8s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .car-form__button {
-  padding: 10px 20px;
+  padding: 12px 30px;
   border: none;
-  border-radius: 4px;
-  font-size: 14px;
-  font-weight: 500;
+  border-radius: 25px;
+  font-size: 1rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.car-form__button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s ease, height 0.6s ease;
+}
+
+.car-form__button:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.car-form__button:active {
+  transform: scale(0.95);
 }
 
 .car-form__button--submit {
-  background-color: #007bff;
+  background: linear-gradient(45deg, #ff6b6b, #ee5253);
   color: white;
+  box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
 }
 
 .car-form__button--submit:hover {
-  background-color: #0056b3;
+  background: linear-gradient(45deg, #ff5252, #ff6b6b);
+  box-shadow: 0 8px 25px rgba(255, 107, 107, 0.6);
+  transform: translateY(-2px);
 }
 
 .car-form__button--cancel {
-  background-color: #6c757d;
-  color: white;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(5px);
 }
 
 .car-form__button--cancel:hover {
-  background-color: #545b62;
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  opacity: 0.5;
+  background: #4ecdc4;
+  transition: opacity 0.3s ease;
+}
+
+input[type=number]:hover::-webkit-inner-spin-button,
+input[type=number]:hover::-webkit-outer-spin-button {
+  opacity: 1;
+}
+
+.car-form__input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+  transition: all 0.3s ease;
+}
+
+.car-form__input:focus::placeholder {
+  opacity: 0;
+  transform: translateX(10px);
+}
+
+@media (max-width: 768px) {
+  .car-form {
+    margin: 10px;
+    padding: 20px;
+  }
+
+  .car-form__title {
+    font-size: 1.5rem;
+  }
+
+  .car-form__footer {
+    flex-direction: column;
+  }
+
+  .car-form__button {
+    width: 100%;
+  }
+}
+
+.car-form.submitting .car-form__button--submit {
+  animation: loading 1.5s infinite;
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+@keyframes loading {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.95);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.car-form.success {
+  animation: success 0.6s ease-out;
+}
+
+@keyframes success {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+    box-shadow: 0 20px 45px rgba(78, 205, 196, 0.5);
+  }
+}
+
+.car-form__input.error {
+  border-color: #ff6b6b;
+  animation: shake 0.5s ease;
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-10px);
+  }
+  75% {
+    transform: translateX(10px);
+  }
+}
+
+.car-form__input:focus-visible {
+  outline: 2px solid #4ecdc4;
+  outline-offset: 2px;
+}
+
+@media print {
+  .car-form {
+    background: white;
+    color: black;
+    box-shadow: none;
+  }
+
+  .car-form__title,
+  .car-form__label,
+  .car-form__input {
+    color: black;
+  }
 }

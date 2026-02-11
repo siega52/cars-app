@@ -14,22 +14,17 @@ interface CarMapProps {
   cars: Car[];
 }
 
-// Глобальная загрузка API (загружается один раз)
 const loadYandexMapsAPI = (apiKey: string): Promise<void> => {
-  // Если уже загружено
   if (window.ymaps) {
     return Promise.resolve();
   }
 
-  // Если уже загружается
   if (window._yandexMapsPromise) {
     return window._yandexMapsPromise;
   }
 
   window._yandexMapsPromise = new Promise((resolve, reject) => {
-    // Проверяем, не загружается ли уже
     if (window._yandexMapsLoading) {
-      // Ждем завершения
       const checkInterval = setInterval(() => {
         if (window.ymaps) {
           clearInterval(checkInterval);
@@ -59,12 +54,10 @@ const loadYandexMapsAPI = (apiKey: string): Promise<void> => {
       reject(new Error('Не удалось загрузить Яндекс.Карты'));
     };
     
-    // Проверяем, нет ли уже такого скрипта
     const existingScript = document.querySelector(`script[src*="api-maps.yandex.ru"]`);
     if (!existingScript) {
       document.head.appendChild(script);
     } else {
-      // Если скрипт уже есть, ждем его загрузки
       script.onload?.();
     }
   });
@@ -78,11 +71,10 @@ const CarMap: React.FC<CarMapProps> = ({ cars }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [progress, setProgress] = useState(0);
-  const geoObjectsRef = useRef<any[]>([]); // Храним геообъекты отдельно
+  const geoObjectsRef = useRef<any[]>([]);
 
   const apiKey = import.meta.env.VITE_YANDEX_MAPS_API_KEY || '';
 
-  // Мемоизируем данные для меток
   const placemarksData = useMemo(() => 
     cars.map(car => ({
       id: car.id,
@@ -107,7 +99,6 @@ const CarMap: React.FC<CarMapProps> = ({ cars }) => {
     [cars]
   );
 
-  // Предварительный расчет центра карты
   const mapCenter = useMemo(() => {
     if (cars.length === 0) return [55.753332, 37.621676] as [number, number];
     
@@ -116,7 +107,6 @@ const CarMap: React.FC<CarMapProps> = ({ cars }) => {
     return [sumLat / cars.length, sumLng / cars.length] as [number, number];
   }, [cars]);
 
-  // Инициализация карты
   const initMap = useCallback(() => {
     if (!mapContainerRef.current || !window.ymaps) {
       console.error('Map container or ymaps not available');
@@ -126,7 +116,6 @@ const CarMap: React.FC<CarMapProps> = ({ cars }) => {
     try {
       setProgress(30);
       
-      // Уничтожаем предыдущую карту если есть
       if (mapRef.current) {
         try {
           mapRef.current.destroy();
@@ -136,7 +125,6 @@ const CarMap: React.FC<CarMapProps> = ({ cars }) => {
         mapRef.current = null;
       }
 
-      // Создаем новую карту
       mapRef.current = new window.ymaps.Map(mapContainerRef.current, {
         center: mapCenter,
         zoom: 10,
@@ -146,10 +134,8 @@ const CarMap: React.FC<CarMapProps> = ({ cars }) => {
 
       setProgress(60);
 
-      // Создаем массив для геообъектов
       geoObjectsRef.current = [];
       
-      // Создаем метки
       placemarksData.forEach(data => {
         const placemark = new window.ymaps.Placemark(
           data.coordinates,
@@ -161,9 +147,7 @@ const CarMap: React.FC<CarMapProps> = ({ cars }) => {
 
       setProgress(80);
 
-      // Добавляем все объекты на карту
       if (geoObjectsRef.current.length > 0) {
-        // Используем кластеризацию только при большом количестве меток
         if (geoObjectsRef.current.length > 15) {
           const clusterer = new window.ymaps.Clusterer({
             preset: 'islands#invertedDarkBlueClusterIcons',
@@ -175,7 +159,6 @@ const CarMap: React.FC<CarMapProps> = ({ cars }) => {
           clusterer.add(geoObjectsRef.current);
           mapRef.current.geoObjects.add(clusterer);
         } else {
-          // Просто добавляем метки
           geoObjectsRef.current.forEach(geoObject => {
             mapRef.current.geoObjects.add(geoObject);
           });
@@ -192,7 +175,6 @@ const CarMap: React.FC<CarMapProps> = ({ cars }) => {
     }
   }, [mapCenter, placemarksData]);
 
-  // Эффект загрузки
   useEffect(() => {
     if (!apiKey || !mapContainerRef.current) {
       setIsLoading(false);
@@ -207,19 +189,16 @@ const CarMap: React.FC<CarMapProps> = ({ cars }) => {
       try {
         setProgress(10);
         
-        // Загружаем API
         await loadYandexMapsAPI(apiKey);
         
         if (!mounted) return;
         
         setProgress(20);
         
-        // Ждем готовности ymaps
         if (!window.ymaps) {
           throw new Error('API Яндекс.Карт не загрузилось');
         }
 
-        // Инициализируем карту
         window.ymaps.ready(() => {
           if (!mounted) return;
           initMap();
@@ -233,18 +212,14 @@ const CarMap: React.FC<CarMapProps> = ({ cars }) => {
       }
     };
 
-    // Загружаем карту с небольшой задержкой для предотвращения гонки
     loadTimeout = setTimeout(loadMap, 100);
 
-    // Очистка
     return () => {
       mounted = false;
       clearTimeout(loadTimeout);
       
-      // Очищаем карту при размонтировании
       if (mapRef.current) {
         try {
-          // Удаляем все геообъекты
           if (geoObjectsRef.current.length > 0) {
             geoObjectsRef.current.forEach(geoObject => {
               try {
@@ -256,7 +231,6 @@ const CarMap: React.FC<CarMapProps> = ({ cars }) => {
             geoObjectsRef.current = [];
           }
           
-          // Уничтожаем карту
           mapRef.current.destroy();
           mapRef.current = null;
         } catch (e) {
@@ -266,26 +240,17 @@ const CarMap: React.FC<CarMapProps> = ({ cars }) => {
     };
   }, [apiKey, initMap]);
 
-  // Если нет API ключа - показываем демо
-  if (!apiKey) {
-    return <DemoMap cars={cars} />;
-  }
-
-  // Функция для центрирования карты
   const handleCenterMap = () => {
     if (mapRef.current) {
       mapRef.current.setCenter(mapCenter, 10);
     }
   };
 
-  // Функция для показа всех автомобилей
   const handleShowAll = () => {
     if (mapRef.current && placemarksData.length > 0) {
       try {
-        // Собираем координаты всех меток
         const coordinates = placemarksData.map(data => data.coordinates);
         
-        // Создаем bounds
         const bounds = window.ymaps.util.bounds.fromPoints(coordinates);
         mapRef.current.setBounds(bounds, {
           checkZoomRange: true,
@@ -389,45 +354,5 @@ const CarMap: React.FC<CarMapProps> = ({ cars }) => {
     </section>
   );
 };
-
-// Демо-компонент для случая без API ключа
-const DemoMap: React.FC<{ cars: Car[] }> = ({ cars }) => (
-  <section className="car-map car-map--demo">
-    <header className="car-map__header">
-      <h2 className="car-map__title">Карта расположения автомобилей</h2>
-      <p className="car-map__subtitle">Для работы требуется API ключ Яндекс.Карт</p>
-    </header>
-    
-    <div className="car-map__demo-container">
-      <div className="car-map__demo-grid">
-        {cars.slice(0, 8).map(car => (
-          <div key={car.id} className="car-map__demo-card">
-            <div 
-              className="car-map__demo-marker" 
-              style={{ backgroundColor: car.color || '#ff0000' }}
-            />
-            <div className="car-map__demo-content">
-              <h3>{car.name} {car.model}</h3>
-              <p>Координаты: {car.latitude.toFixed(4)}, {car.longitude.toFixed(4)}</p>
-              <p>Год: {car.year} • Цена: ${car.price.toLocaleString()}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-      <div className="car-map__demo-instructions">
-        <h4>Как подключить Яндекс.Карты:</h4>
-        <ol>
-          <li>Получите бесплатный API ключ на <a href="https://developer.tech.yandex.ru/" target="_blank" rel="noopener noreferrer">developer.tech.yandex.ru</a></li>
-          <li>Создайте файл <code>.env</code> в корне проекта</li>
-          <li>Добавьте строку: <code>VITE_YANDEX_MAPS_API_KEY=ваш_ключ</code></li>
-          <li>Перезапустите приложение: <code>npm run dev</code></li>
-        </ol>
-        <p className="car-map__demo-note">
-          Для тестирования можно использовать демо-ключ (есть ограничения)
-        </p>
-      </div>
-    </div>
-  </section>
-);
 
 export default CarMap;

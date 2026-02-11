@@ -1,121 +1,473 @@
-/* src/components/CarList/CarList.css */
 .car-list {
+  max-width: 1400px;
+  margin: 0 auto;
+  animation: fadeIn 0.8s ease-out;
   margin-bottom: 40px;
 }
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 .car-list__header {
-  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding: 20px;
+  background: linear-gradient(135deg, #1e1e2f 0%, #2a2a40 100%);
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+  animation: slideInDown 0.6s ease-out;
+}
+
+.car-list__header::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(78, 205, 196, 0.1) 0%, transparent 70%);
+  animation: rotate 20s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .car-list__title {
-  font-size: 24px;
-  font-weight: 600;
-  color: #333;
-  margin: 0 0 8px 0;
+  color: #fff;
+  font-size: 1.8rem;
+  margin: 0;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  letter-spacing: 1px;
+  position: relative;
+}
+
+.car-list__title::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 50px;
+  height: 2px;
+  background: linear-gradient(90deg, #ff6b6b, #4ecdc4);
+  animation: widthExpand 0.8s ease-out forwards;
 }
 
 .car-list__count {
-  font-size: 14px;
-  color: #666;
-  margin: 0;
+  color: #4ecdc4;
+  font-size: 1.1rem;
+  padding: 8px 16px;
+  background: rgba(78, 205, 196, 0.1);
+  border-radius: 20px;
+  border: 1px solid rgba(78, 205, 196, 0.3);
+  backdrop-filter: blur(5px);
 }
 
 .car-list__empty {
   text-align: center;
-  padding: 40px;
-  font-size: 16px;
-  color: #666;
+  padding: 60px;
+  color: #ddd;
+  font-size: 1.2rem;
+  background: linear-gradient(135deg, #1e1e2f 0%, #2a2a40 100%);
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  animation: pulse 2s infinite;
 }
 
 .car-list__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
 }
 
 .car-card {
-  background: #ffffff;
-  border-radius: 8px;
+  width: 100%;
+  height: 220px;
+  background: linear-gradient(135deg, #1e1e2f 0%, #2a2a40 100%);
+  border-radius: 15px;
   overflow: hidden;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  position: relative;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  animation: cardAppear 0.6s ease-out;
+  animation-fill-mode: both;
   display: flex;
   flex-direction: column;
 }
 
+.car-card:nth-child(3n+1) { animation-delay: 0.1s; }
+.car-card:nth-child(3n+2) { animation-delay: 0.2s; }
+.car-card:nth-child(3n+3) { animation-delay: 0.3s; }
+
+@keyframes cardAppear {
+  from {
+    opacity: 0;
+    transform: scale(0.8) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.car-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  border-color: rgba(78, 205, 196, 0.3);
+}
+
 .car-card__color {
-  height: 4px;
+  height: 8px;
   width: 100%;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.car-card:hover .car-card__color {
+  height: 12px;
+}
+
+.car-card__color::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  100% {
+    left: 100%;
+  }
 }
 
 .car-card__content {
-  padding: 16px;
-  flex-grow: 1;
+  padding: 15px;
+  flex: 1;
+  position: relative;
 }
 
 .car-card__title {
-  font-size: 18px;
-  font-weight: 600;
-  color: #333;
+  color: #fff;
+  font-size: 1.1rem;
   margin: 0 0 12px 0;
+  font-weight: 600;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+}
+
+
+.car-card:hover .car-card__title::before {
+  transform: translateX(-3px);
+}
+
+.car-card__title::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: linear-gradient(90deg, #ff6b6b, #4ecdc4);
+  transition: width 0.3s ease;
+}
+
+.car-card:hover .car-card__title::after {
+  width: 100%;
 }
 
 .car-card__details {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
   margin: 0;
+  font-size: 0.85rem;
 }
 
 .car-card__detail {
   display: flex;
-  justify-content: space-between;
-  padding: 6px 0;
-  border-bottom: 1px solid #f0f0f0;
+  align-items: baseline;
+  animation: fadeInDetail 0.5s ease-out;
+  animation-fill-mode: both;
 }
 
-.car-card__detail:last-child {
-  border-bottom: none;
+.car-card__detail:nth-child(1) { animation-delay: 0.1s; }
+.car-card__detail:nth-child(2) { animation-delay: 0.2s; }
+.car-card__detail:nth-child(3) { animation-delay: 0.3s; }
+.car-card__detail:nth-child(4) { animation-delay: 0.4s; }
+
+@keyframes fadeInDetail {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 .car-card__term {
-  font-weight: 500;
-  color: #555;
+  color: #aaa;
+  font-size: 0.8rem;
+  margin-right: 5px;
 }
 
 .car-card__value {
-  color: #333;
+  color: #4ecdc4;
+  margin: 0;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: all 0.3s ease;
+}
+
+.car-card:hover .car-card__value {
+  color: #ff6b6b;
 }
 
 .car-card__footer {
-  padding: 12px 16px;
-  background: #f8f9fa;
-  border-top: 1px solid #eee;
   display: flex;
-  gap: 8px;
+  gap: 10px;
+  padding: 12px 15px;
+  background: rgba(0, 0, 0, 0.2);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  margin-top: auto;
 }
 
 .car-card__button {
-  padding: 8px 12px;
-  border: none;
-  border-radius: 4px;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.2s;
   flex: 1;
+  padding: 8px;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.car-card__button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s ease, height 0.6s ease;
+}
+
+.car-card__button:hover::before {
+  width: 200px;
+  height: 200px;
+}
+
+.car-card__button:active {
+  transform: scale(0.95);
 }
 
 .car-card__button--edit {
-  background-color: #17a2b8;
+  background: linear-gradient(45deg, #4ecdc4, #45b7aa);
   color: white;
+  box-shadow: 0 3px 10px rgba(78, 205, 196, 0.3);
 }
 
 .car-card__button--edit:hover {
-  background-color: #138496;
+  background: linear-gradient(45deg, #45b7aa, #3aa094);
+  box-shadow: 0 5px 15px rgba(78, 205, 196, 0.5);
+  transform: translateY(-2px);
 }
 
 .car-card__button--delete {
-  background-color: #dc3545;
+  background: linear-gradient(45deg, #ff6b6b, #ee5253);
   color: white;
+  box-shadow: 0 3px 10px rgba(255, 107, 107, 0.3);
 }
 
 .car-card__button--delete:hover {
-  background-color: #c82333;
+  background: linear-gradient(45deg, #ff5252, #ff6b6b);
+  box-shadow: 0 5px 15px rgba(255, 107, 107, 0.5);
+  transform: translateY(-2px);
+}
+
+.car-card.deleting {
+  animation: deleteCard 0.5s ease-out forwards;
+}
+
+@keyframes deleteCard {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0);
+  }
+}
+
+.car-card.adding {
+  animation: addCard 0.6s ease-out;
+}
+
+@keyframes addCard {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  70% {
+    opacity: 0.7;
+    transform: scale(1.05);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 1200px) {
+  .car-list__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+    justify-items: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .car-list {
+    padding: 15px;
+  }
+
+  .car-list__header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .car-list__grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    justify-items: center;
+  }
+
+  .car-list__title {
+    font-size: 1.5rem;
+  }
+
+  .car-card {
+    width: 280px;
+    height: auto;
+    min-height: 200px;
+  }
+}
+
+.car-list.loading .car-card {
+  animation: loadingPulse 1.5s infinite;
+}
+
+@keyframes loadingPulse {
+  0%, 100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.car-card__value[data-type="price"] {
+  position: relative;
+  cursor: help;
+}
+
+.car-card__value[data-type="price"]:hover::after {
+  content: 'USD';
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #4ecdc4;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  margin-bottom: 5px;
+  animation: tooltipFade 0.3s ease;
+}
+
+@keyframes tooltipFade {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+.car-card__value:has(+ .car-card__color-indicator) {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.car-card__color-indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+  animation: pulse 2s infinite;
+}
+
+.car-list__count {
+  animation: countPulse 2s infinite;
+}
+
+@keyframes countPulse {
+  0%, 100% {
+    background: rgba(78, 205, 196, 0.1);
+  }
+  50% {
+    background: rgba(78, 205, 196, 0.2);
+  }
 }
