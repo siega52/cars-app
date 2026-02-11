@@ -26,38 +26,13 @@ const SortControls: React.FC<SortControlsProps> = ({
     <nav className="sort-controls">
       <h3 className="sort-controls__title">Сортировка</h3>
       <div className="sort-controls__buttons">
-        <button
-          className={`sort-controls__button ${
-            sortField === 'year' ? 'sort-controls__button--active' : ''
-          }`}
-          onClick={() => handleSortClick('year')}
-        >
-          По году
-          {sortField === 'year' && (
-            <span className="sort-controls__arrow">
-              {sortDirection === 'asc' ? '↑' : '↓'}
-            </span>
-          )}
+        <button className={`sort-controls__button ${sortField === 'year' ? 'sort-controls__button--active' : ''}`} onClick={() => handleSortClick('year')}>По году{sortField === 'year' && (
+            <span className="sort-controls__arrow">{sortDirection === 'asc' ? '↑' : '↓'}</span>)}
         </button>
-        <button
-          className={`sort-controls__button ${
-            sortField === 'price' ? 'sort-controls__button--active' : ''
-          }`}
-          onClick={() => handleSortClick('price')}
-        >
-          По цене
-          {sortField === 'price' && (
-            <span className="sort-controls__arrow">
-              {sortDirection === 'asc' ? '↑' : '↓'}
-            </span>
-          )}
+        <button className={`sort-controls__button ${sortField === 'price' ? 'sort-controls__button--active' : ''}`}onClick={() => handleSortClick('price')}>По цене{sortField === 'price' && (
+            <span className="sort-controls__arrow">{sortDirection === 'asc' ? '↑' : '↓'}</span>)}
         </button>
-        <button
-          className="sort-controls__button"
-          onClick={() => handleSortClick('none')}
-        >
-          Без сортировки
-        </button>
+        <button className="sort-controls__button" onClick={() => handleSortClick('none')}>Без сортировки</button>
       </div>
     </nav>
   );

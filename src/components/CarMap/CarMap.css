@@ -2,9 +2,15 @@
 .car-map {
   margin-bottom: 40px;
   background: #ffffff;
-  border-radius: 8px;
+  border-radius: 12px;
   padding: 24px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .car-map__header {
@@ -12,300 +18,380 @@
 }
 
 .car-map__title {
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 600;
-  color: #333;
+  color: #2c3e50;
   margin: 0 0 8px 0;
 }
 
 .car-map__subtitle {
   font-size: 14px;
-  color: #666;
+  color: #7f8c8d;
   margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.car-map__provider {
+  background: #ffcc00;
+  color: #000;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.car-map__count {
+  background: #e8f4fc;
+  color: #3498db;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 500;
+  font-size: 12px;
 }
 
 .car-map__container {
-  border-radius: 8px;
+  border-radius: 10px;
   overflow: hidden;
-  margin-bottom: 20px;
-  border: 1px solid #e0e0e0;
+  margin-bottom: 16px;
+  border: 2px solid #e1e8ed;
   position: relative;
+  background: #f8f9fa;
   min-height: 400px;
 }
 
 .car-map__map {
   width: 100%;
-  height: 100%;
-  min-height: 400px;
-  border-radius: 8px;
-}
-
-/* Стили для балуна Яндекс.Карт */
-.car-map__balloon {
-  padding: 12px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-  max-width: 250px;
-}
-
-.car-map__balloon p {
-  margin: 6px 0;
-  font-size: 14px;
-  line-height: 1.4;
-}
-
-.car-map__balloon strong {
-  color: #333;
-  font-weight: 600;
-}
-
-/* Легенда */
-.car-map__legend {
+  height: 400px;
   background: #f8f9fa;
-  border-radius: 6px;
-  padding: 16px;
-  border: 1px solid #e9ecef;
-  margin-top: 20px;
-}
-
-.car-map__legend-title {
-  font-size: 16px;
-  font-weight: 600;
-  color: #333;
-  margin: 0 0 12px 0;
-}
-
-.car-map__legend-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.car-map__legend-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 10px;
-  font-size: 14px;
-  color: #555;
-}
-
-.car-map__legend-item:last-child {
-  margin-bottom: 0;
-}
-
-.car-map__legend-marker {
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  display: inline-block;
-  border: 2px solid white;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-}
-
-.car-map__legend-cluster {
-  width: 20px;
-  height: 20px;
-  background: #1E98FF;
-  border-radius: 50%;
-  display: inline-block;
-  position: relative;
-  border: 2px solid white;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-}
-
-.car-map__legend-cluster::after {
-  content: '2+';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: white;
-  font-size: 10px;
-  font-weight: bold;
-}
-
-.car-map__legend-text {
-  font-style: italic;
-  color: #888;
-}
-
-/* Элементы управления */
-.car-map__controls {
-  display: flex;
-  gap: 12px;
-  margin-bottom: 20px;
-  flex-wrap: wrap;
-}
-
-.car-map__control-button {
-  padding: 8px 16px;
-  background: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.car-map__control-button:hover {
-  background: #0056b3;
 }
 
 /* Индикатор загрузки */
-.car-map__loading-overlay {
+.car-map__loading {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.95);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
-  border-radius: 8px;
+  z-index: 10;
+  border-radius: 10px;
+  gap: 20px;
 }
 
-.car-map__loading-spinner {
-  width: 40px;
-  height: 40px;
+.car-map__spinner {
+  width: 50px;
+  height: 50px;
   border: 4px solid #f3f3f3;
-  border-top: 4px solid #007bff;
+  border-top: 4px solid #3498db;
   border-radius: 50%;
-  animation: car-map-spin 1s linear infinite;
-  margin-bottom: 16px;
+  animation: spin 1s linear infinite;
 }
 
-@keyframes car-map-spin {
+@keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
 
-/* Сообщения об ошибках */
+.car-map__loading-progress {
+  width: 80%;
+  max-width: 300px;
+  height: 6px;
+  background: #e9ecef;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.car-map__loading-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #3498db, #2ecc71);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.car-map__loading-text {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+  font-weight: 500;
+}
+
+/* Сообщение об ошибке */
 .car-map__error {
-  padding: 40px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.95);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+  border-radius: 10px;
+  padding: 30px;
   text-align: center;
-  background: #fff5f5;
-  border-radius: 8px;
-  border: 2px solid #fed7d7;
-  color: #c53030;
+  gap: 16px;
+}
+
+.car-map__error-icon {
+  font-size: 40px;
 }
 
 .car-map__error h3 {
-  margin: 0 0 16px 0;
+  margin: 0;
+  font-size: 18px;
+  color: #e74c3c;
+}
+
+.car-map__error p {
+  margin: 0;
+  color: #666;
+  max-width: 400px;
+  line-height: 1.5;
 }
 
 .car-map__retry-button {
-  margin-top: 16px;
-  padding: 10px 20px;
-  background: #c53030;
+  margin-top: 10px;
+  padding: 10px 24px;
+  background: #e74c3c;
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
   font-size: 14px;
+  font-weight: 600;
+  transition: all 0.2s;
 }
 
 .car-map__retry-button:hover {
-  background: #9b2c2c;
+  background: #c0392b;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+}
+
+/* Элементы управления */
+.car-map__controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.car-map__control-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.car-map__control-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.car-map__control-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.car-map__control-button--center {
+  background: #3498db;
+  color: white;
+}
+
+.car-map__control-button--center:hover:not(:disabled) {
+  background: #2980b9;
+}
+
+.car-map__control-button--show-all {
+  background: #2ecc71;
+  color: white;
+}
+
+.car-map__control-button--show-all:hover:not(:disabled) {
+  background: #27ae60;
+}
+
+.car-map__control-icon {
+  font-size: 16px;
+}
+
+.car-map__stats {
+  display: flex;
+  gap: 12px;
+  font-size: 12px;
+  color: #666;
+}
+
+.car-map__stat {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: #f8f9fa;
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid #e9ecef;
+}
+
+.car-map__stat--clustered {
+  background: #e8f4fc;
+  color: #3498db;
+  border-color: #d1ecf1;
+}
+
+.car-map__stat-icon {
+  font-size: 14px;
 }
 
 /* Демо-режим */
 .car-map--demo {
-  background: #f8f9fa;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.car-map--demo .car-map__title {
+  color: white;
+}
+
+.car-map--demo .car-map__subtitle {
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .car-map__demo-container {
-  border-radius: 8px;
-  overflow: hidden;
-  border: 2px dashed #dee2e6;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 10px;
+  padding: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.car-map__demo-map {
-  height: 300px;
-  background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+.car-map__demo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.car-map__demo-card {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  padding: 16px;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start;
+  gap: 12px;
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: transform 0.2s;
+}
+
+.car-map__demo-card:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.car-map__demo-marker {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 3px solid white;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  margin-top: 2px;
 }
 
 .car-map__demo-content {
-  background: white;
-  padding: 24px;
-  border-radius: 8px;
-  max-width: 500px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  text-align: center;
+  flex: 1;
 }
 
 .car-map__demo-content h3 {
-  color: #333;
-  margin-bottom: 16px;
+  margin: 0 0 6px 0;
+  font-size: 16px;
+  color: white;
+  font-weight: 600;
 }
 
-.car-map__demo-list {
-  list-style: none;
-  padding: 0;
-  margin: 16px 0;
-  text-align: left;
-}
-
-.car-map__demo-item {
-  padding: 8px 0;
-  border-bottom: 1px solid #eee;
-  font-size: 14px;
-}
-
-.car-map__demo-item:last-child {
-  border-bottom: none;
-  font-style: italic;
-  color: #666;
+.car-map__demo-content p {
+  margin: 4px 0;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.4;
 }
 
 .car-map__demo-instructions {
-  margin-top: 20px;
-  padding: 16px;
-  background: #e7f3ff;
-  border-radius: 6px;
-  text-align: left;
-  font-size: 14px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  padding: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.car-map__demo-instructions p {
+.car-map__demo-instructions h4 {
   margin: 0 0 12px 0;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
 }
 
 .car-map__demo-instructions ol {
   margin: 0;
   padding-left: 20px;
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .car-map__demo-instructions li {
   margin-bottom: 8px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.car-map__demo-instructions code {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 12px;
+  color: #ffcc00;
 }
 
 .car-map__demo-instructions a {
-  color: #0066cc;
+  color: #ffcc00;
   text-decoration: none;
+  border-bottom: 1px dotted rgba(255, 204, 0, 0.5);
 }
 
 .car-map__demo-instructions a:hover {
-  text-decoration: underline;
+  border-bottom-style: solid;
 }
 
 .car-map__demo-note {
-  margin-top: 12px !important;
+  margin: 16px 0 0 0 !important;
+  padding: 12px;
+  background: rgba(255, 204, 0, 0.1);
+  border-radius: 4px;
+  border-left: 3px solid #ffcc00;
   font-size: 12px !important;
-  color: #666 !important;
+  color: rgba(255, 255, 255, 0.8) !important;
 }
 
 /* Адаптивность */
 @media (max-width: 768px) {
   .car-map {
     padding: 16px;
+    margin-bottom: 30px;
   }
   
   .car-map__title {
@@ -317,14 +403,60 @@
   }
   
   .car-map__map {
-    min-height: 300px;
+    height: 300px;
   }
   
   .car-map__controls {
     flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
   }
   
   .car-map__control-button {
     width: 100%;
+    justify-content: center;
   }
+  
+  .car-map__stats {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  .car-map__demo-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Стили для балунов Яндекс.Карт */
+.ymaps-balloon {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+}
+
+.ymaps-balloon__content {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.car-map__balloon {
+  padding: 16px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  max-width: 250px;
+}
+
+.car-map__balloon p {
+  margin: 8px 0;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #333;
+}
+
+.car-map__balloon strong {
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+.car-map__balloon small {
+  font-size: 12px;
+  color: #7f8c8d;
 }

@@ -6,15 +6,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Управление автомобилями</title>
     
-    <!-- Предзагрузка Яндекс.Карт -->
-    <link rel="preconnect" href="https://api-maps.yandex.ru" />
-    <link rel="dns-prefetch" href="https://api-maps.yandex.ru" />
-    
-    <!-- Предзагрузка шрифтов Яндекс -->
+    <link 
+      rel="preconnect" 
+      href="https://api-maps.yandex.ru" 
+      crossorigin
+    />
+    <link 
+      rel="dns-prefetch" 
+      href="https://api-maps.yandex.ru"
+    />
+    <link 
+      rel="preload" 
+      as="script" 
+      href="https://api-maps.yandex.ru/2.1/?lang=ru_RU&apikey=<?= getenv('VITE_YANDEX_MAPS_API_KEY') ?>"
+      crossorigin
+    />
+
     <link rel="preconnect" href="https://yastatic.net" />
     
-    <!-- Предзагрузка базовых ресурсов -->
-    <link rel="preload" as="script" href="https://api-maps.yandex.ru/2.1/?lang=ru_RU">
   </head>
   <body>
     <div id="root"></div>

@@ -121,9 +121,9 @@ const App: React.FC = () => {
 
   return (
     <div className="app">
-      <header className="app__header">
+      {/* <header className="app__header">
         <h1 className="app__title">Управление автомобилями</h1>
-      </header>
+      </header> */}
 
       <main className="app__main">
         {error && (
